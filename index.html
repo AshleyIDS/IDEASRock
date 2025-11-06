@@ -1,26 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    </head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessible HTML5 Document - Master Developer</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        h1, h2 { border-bottom: 2px solid #ccc; padding-bottom: 5px; }
+        /* Style for the Table of Contents */
+        #toc {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+        }
+        #toc ul { list-style: none; padding: 0; }
+        #toc li { margin-bottom: 8px; }
+        /* High contrast for keyboard focus (accessibility feature) */
+        a:focus, button:focus {
+            outline: 3px solid #007bff; /* Bright, noticeable outline */
+            outline-offset: 2px;
+        }
+        /* Separator to break up the dense text */
+        .content-separator { margin: 50px 0; border: 1px dashed #ccc; }
+    </style>
+</head>
 <body>
-    <nav aria-label="Table of Contents">
-        <ul>
-            <li><a href="#section-one">Jump to Section 1</a></li>
-            <li><a href="#section-two">Jump to Section 2</a></li>
-            </ul>
-    </nav>
-    
+
+    <header>
+        <h1>Master Web Development - Accessibility Guidelines</h1>
+    </header>
+
     <main>
-        <h1>Your Document Title Here</h1>
+        <nav id="toc" aria-label="Table of Contents">
+            <h2>Table of Contents</h2>
+            <ul>
+                <li><a href="#introduction">1. Introduction to Accessible Markup</a></li>
+                <li><a href="#semantics">2. Understanding Semantic Structure</a></li>
+                <li><a href="#anchors">3. Accessible Anchor Tag Best Practices</a></li>
+            </ul>
+        </nav>
+
+        <section id="introduction">
+            <h2 id="introduction">1. Introduction to Accessible Markup</h2>
+            <p>Web accessibility ensures that people with disabilities can perceive, understand, navigate, and interact with the Web. As master developers, we use **HTML5 semantic elements** to provide a robust structure that assistive technologies, like screen readers, can easily interpret.</p>
+            <p>Good accessibility benefits everyone, including mobile users, people with slow internet connections, and those with temporary disabilities.</p>
+            
+            <p><a href="#toc">Return to Table of Contents</a></p>
+        </section>
+
+        <div class="content-separator"></div>
+
+        <section id="semantics">
+            <h2 id="semantics">2. Understanding Semantic Structure</h2>
+            <p>Semantic HTML means using the correct HTML tag for its intended purpose. Instead of using a `<div>` and styling it to look like a button, we use the `<button>` element. For primary navigation, we use `<nav>`.</p>
+            <ul>
+                <li>Use `<header>`, `<main>`, `<footer>`, `<nav>`, and `<aside>` to define page regions.</li>
+                <li>Use `<h1>` through `<h6>` in a **logical hierarchy** (e.g., don't skip from `<h1>` to `<h3>`).</li>
+                <li>Ensure all images that convey meaning have a descriptive `alt` attribute.</li>
+            </ul>
+
+            <p><a href="#toc">Return to Table of Contents</a></p>
+        </section>
+
+        <div class="content-separator"></div>
+
+        <section id="anchors">
+            <h2 id="anchors">3. Accessible Anchor Tag Best Practices</h2>
+            <p>Anchor links (`<a>`) are crucial for navigation, both external and internal (like this TOC).</p>
+            <p>For accessibility:</p>
+            <ol>
+                <li>**Descriptive Link Text:** Avoid "Click Here" or "Read More." Instead, use text that clearly explains the link's destination (e.g., "Read the full Accessibility Guidelines").</li>
+                <li>**Unique IDs:** Anchor destinations use the `id` attribute, which **must be unique** on the page. We applied IDs directly to the section headings (`<h2 id="...">`) for the cleanest markup.</li>
+                <li>**Clear Focus Indicator:** The embedded CSS ensures that when a user navigates via keyboard (`Tab` key), the link has a strong, visible outline (`a:focus`), making the interaction clear.</li>
+            </ol>
+            
+            <p><a href="#toc">Return to Table of Contents</a></p>
+        </section>
         
-        <section id="section-one">
-            <h2>Section Heading 1 (The Anchor Target)</h2>
-            </section>
-        
-        <section id="section-two">
-            <h2>Section Heading 2 (The Anchor Target)</h2>
-            </section>
-        
-        </main>
+    </main>
+
+    <footer>
+        <p>Document End. Thank you for prioritizing accessibility.</p>
+    </footer>
+
 </body>
 </html>
