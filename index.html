@@ -3,8 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master Developer Lesson Index</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Master Developer Lesson Index (Embedded Style)</title>
+    
+    <style>
+        /* Optional: Basic List/Menu Reset */
+        #lesson-menu ul {
+            list-style: none; /* Remove bullet points */
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        #lesson-menu li {
+            margin-bottom: 8px;
+        }
+
+        /* 1. Basic Link Styling */
+        #lesson-menu a {
+            /* Remove the default underline */
+            text-decoration: none;
+            /* Set a nice starting color */
+            color: #007bff; 
+            /* Smooth transition for visual effects */
+            transition: color 0.3s ease, background-color 0.3s ease, transform 0.1s ease;
+            /* Display as a block to make the whole area clickable and styleable */
+            display: block; 
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        /* 2. Hover Interactivity (When the mouse is over the link) */
+        #lesson-menu a:hover {
+            /* Change the text color */
+            color: #ffffff; 
+            /* Add a subtle background highlight */
+            background-color: #007bff;
+            /* Make the cursor indicate it's clickable */
+            cursor: pointer;
+            /* Add a slight shadow for depth */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+        }
+
+        /* 3. Active Interactivity (When the link is actually being pressed/clicked) */
+        #lesson-menu a:active {
+            /* Slightly darker background when clicked */
+            background-color: #0056b3; 
+            /* Small scale-down effect for a button-press feel */
+            transform: scale(0.98); 
+        }
+    </style>
+    
 </head>
 <body>
 
@@ -19,15 +67,15 @@
             <ul>
                 <li>
                     <a href="lesson-1.html">
-                        **Lesson 1: Introduction to Advanced HTML Structure**
+                        Lesson 1: Introduction to Advanced HTML Structure
                     </a>
                 </li>
                 <li>
                     <a href="lesson-2.html">
-                        **Lesson 2: Mastering CSS Flexbox and Grid**
+                        Lesson 2: Mastering CSS Flexbox and Grid
                     </a>
                 </li>
-                </ul>
+            </ul>
         </nav>
 
         <section id="welcome-content">
@@ -40,6 +88,5 @@
         <p>&copy; 2025 Master Web Developer Academy</p>
     </footer>
 
-    <script src="app.js"></script>
 </body>
 </html>
