@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cell Physiology Flashcards</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .progress {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .card-container {
+            perspective: 1000px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            width: 100%;
+            height: 400px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            cursor: pointer;
+        }
+
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-front {
+            background: white;
+        }
+
+        .card-back {
+            background: #f8f9fa;
+            transform: rotateY(180deg);
+        }
+
+        .card-label {
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #667eea;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .card-content {
+            font-size: 1.4em;
+            text-align: center;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .card-back .card-content {
+            font-size: 1.1em;
+        }
+
+        .hint {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #666;
+            text-align: center;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .flip-btn {
+            background: #667eea;
+            color: white;
+            flex: 1;
+            max-width: 200px;
+        }
+
+        .flip-btn:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .nav-btn {
+            background: white;
+            color: #667eea;
+            padding: 15px 25px;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                height: 350px;
+            }
+
+            .card-content {
+                font-size: 1.2em;
+            }
+
+            .card-back .card-content {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Cell Physiology</h1>
+            <div class="progress">Card <span id="current">1</span> of <span id="total">10</span></div>
+        </div>
+
+        <div class="card-container">
+            <div class="card" id="flashcard">
+                <div class="card-face card-front">
+                    <div class="card-label">Term</div>
+                    <div class="card-content" id="term"></div>
+                    <div class="hint">Click card or "Flip" button to reveal definition</div>
+                </div>
+                <div class="card-face card-back">
+                    <div class="card-label">Definition</div>
+                    <div class="card-content" id="definition"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="flip-btn" id="flipBtn">Flip Card</button>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn" id="prevBtn">← Previous</button>
+            <button class="nav-btn" id="nextBtn">Next →</button>
+        </div>
+    </div>
+
+    <script>
+        const flashcards = [
+            {
+                term: "Mitochondria",
+                definition: "The powerhouse of the cell; organelles responsible for producing ATP through cellular respiration. They have their own DNA and a double membrane structure."
+            },
+            {
+                term: "Plasma Membrane",
+                definition: "A selectively permeable phospholipid bilayer that surrounds the cell, regulating what enters and exits while maintaining cellular integrity and communication."
+            },
+            {
+                term: "Endoplasmic Reticulum",
+                definition: "A network of membranous tubules that synthesizes proteins (rough ER with ribosomes) and lipids (smooth ER), and helps transport materials throughout the cell."
+            },
+            {
+                term: "Golgi Apparatus",
+                definition: "The cell's packaging center that modifies, sorts, and packages proteins and lipids into vesicles for transport to their final destinations."
+            },
+            {
+                term: "Active Transport",
+                definition: "The movement of molecules across a cell membrane from low to high concentration, requiring energy (ATP) and transport proteins like sodium-potassium pumps."
+            },
+            {
+                term: "Osmosis",
+                definition: "The passive diffusion of water molecules across a selectively permeable membrane from an area of high water concentration to low water concentration."
+            },
+            {
+                term: "Lysosomes",
+                definition: "Membrane-bound organelles containing digestive enzymes that break down cellular waste, damaged organelles, and foreign materials through autophagy and phagocytosis."
+            },
+            {
+                term: "Ribosomes",
+                definition: "Small organelles composed of RNA and proteins that serve as the site of protein synthesis, translating mRNA into polypeptide chains."
+            },
+            {
+                term: "Homeostasis",
+                definition: "The maintenance of stable internal conditions in a cell or organism through regulatory mechanisms, despite changes in the external environment."
+            },
+            {
+                term: "Cell Signaling",
+                definition: "The process by which cells communicate through chemical signals, involving receptors, signal transduction pathways, and cellular responses to coordinate biological activities."
+            }
+        ];
+
+        let currentCard = 0;
+        const card = document.getElementById('flashcard');
+        const termEl = document.getElementById('term');
+        const definitionEl = document.getElementById('definition');
+        const flipBtn = document.getElementById('flipBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const currentEl = document.getElementById('current');
+
+        function loadCard() {
+            card.classList.remove('flipped');
+            termEl.textContent = flashcards[currentCard].term;
+            definitionEl.textContent = flashcards[currentCard].definition;
+            currentEl.textContent = currentCard + 1;
+            
+            prevBtn.disabled = currentCard === 0;
+            nextBtn.disabled = currentCard === flashcards.length - 1;
+        }
+
+        function flipCard() {
+            card.classList.toggle('flipped');
+        }
+
+        flipBtn.addEventListener('click', flipCard);
+        card.addEventListener('click', flipCard);
+
+        prevBtn.addEventListener('click', () => {
+            if (currentCard > 0) {
+                currentCard--;
+                loadCard();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentCard < flashcards.length - 1) {
+                currentCard++;
+                loadCard();
+            }
+        });
+
+        // Initialize
+        loadCard();
+    </script>
+</body>
+</html>
