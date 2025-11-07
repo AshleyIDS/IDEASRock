@@ -1,0 +1,188 @@
+import React, { useState } from 'react';
+import { ChevronLeft, ChevronRight, RotateCw } from 'lucide-react';
+
+const flashcardsData = [
+  {
+    term: "Plasma Membrane",
+    definition: "A selectively permeable phospholipid bilayer that separates the cell's interior from its external environment and regulates the passage of substances in and out of the cell."
+  },
+  {
+    term: "Active Transport",
+    definition: "The movement of molecules across a cell membrane against their concentration gradient, requiring energy in the form of ATP to pump substances from low to high concentration."
+  },
+  {
+    term: "Mitochondria",
+    definition: "The powerhouse of the cell that generates ATP through cellular respiration, containing its own DNA and playing a crucial role in energy metabolism and apoptosis."
+  },
+  {
+    term: "Endoplasmic Reticulum",
+    definition: "A network of membranous tubules within the cytoplasm that synthesizes proteins (rough ER) and lipids (smooth ER), and helps transport materials throughout the cell."
+  },
+  {
+    term: "Osmosis",
+    definition: "The passive movement of water molecules across a selectively permeable membrane from an area of lower solute concentration to an area of higher solute concentration."
+  },
+  {
+    term: "Sodium-Potassium Pump",
+    definition: "An active transport protein that maintains cell membrane potential by pumping 3 sodium ions out and 2 potassium ions into the cell, using one ATP molecule per cycle."
+  },
+  {
+    term: "Gap Junctions",
+    definition: "Specialized intercellular connections that allow direct communication between adjacent cells through channels that permit the passage of ions and small molecules."
+  },
+  {
+    term: "Golgi Apparatus",
+    definition: "An organelle that modifies, packages, and sorts proteins and lipids received from the ER for delivery to their final destinations inside or outside the cell."
+  },
+  {
+    term: "Cytoskeleton",
+    definition: "A dynamic network of protein filaments (microfilaments, intermediate filaments, and microtubules) that provides structural support, facilitates cell movement, and organizes organelles."
+  },
+  {
+    term: "Homeostasis",
+    definition: "The maintenance of stable internal conditions within a cell despite changes in the external environment, involving feedback mechanisms and regulatory processes."
+  }
+];
+
+export default function CellPhysiologyFlashcards() {
+  const [currentCard, setCurrentCard] = useState(0);
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  const handleNext = () => {
+    if (currentCard < flashcardsData.length - 1) {
+      setCurrentCard(currentCard + 1);
+      setIsFlipped(false);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentCard > 0) {
+      setCurrentCard(currentCard - 1);
+      setIsFlipped(false);
+    }
+  };
+
+  const handleFlip = () => {
+    setIsFlipped(!isFlipped);
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+      <div className="w-full max-w-2xl">
+        <div className="bg-white rounded-2xl shadow-2xl p-8">
+          <div className="mb-6">
+            <h1 className="text-3xl font-bold text-gray-800 text-center mb-2">
+              Cell Physiology Flashcards
+            </h1>
+            <p className="text-center text-gray-600">
+              Card {currentCard + 1} of {flashcardsData.length}
+            </p>
+          </div>
+
+          <div 
+            className="relative h-80 mb-8 cursor-pointer perspective-1000"
+            onClick={handleFlip}
+          >
+            <div 
+              className={`absolute w-full h-full transition-all duration-500 transform-style-3d ${
+                isFlipped ? 'rotate-y-180' : ''
+              }`}
+              style={{
+                transformStyle: 'preserve-3d',
+                transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'
+              }}
+            >
+              {/* Front of card */}
+              <div 
+                className="absolute w-full h-full bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl shadow-lg flex items-center justify-center p-8"
+                style={{ backfaceVisibility: 'hidden' }}
+              >
+                <div className="text-center">
+                  <p className="text-sm text-indigo-200 mb-4 uppercase tracking-wider">
+                    Term
+                  </p>
+                  <h2 className="text-4xl font-bold text-white">
+                    {flashcardsData[currentCard].term}
+                  </h2>
+                  <p className="text-indigo-200 mt-6 text-sm">
+                    Click to flip
+                  </p>
+                </div>
+              </div>
+
+              {/* Back of card */}
+              <div 
+                className="absolute w-full h-full bg-gradient-to-br from-teal-500 to-green-600 rounded-xl shadow-lg flex items-center justify-center p-8"
+                style={{ 
+                  backfaceVisibility: 'hidden',
+                  transform: 'rotateY(180deg)'
+                }}
+              >
+                <div className="text-center">
+                  <p className="text-sm text-teal-200 mb-4 uppercase tracking-wider">
+                    Definition
+                  </p>
+                  <p className="text-lg text-white leading-relaxed">
+                    {flashcardsData[currentCard].definition}
+                  </p>
+                  <p className="text-teal-200 mt-6 text-sm">
+                    Click to flip back
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between gap-4">
+            <button
+              onClick={handlePrevious}
+              disabled={currentCard === 0}
+              className={`flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all ${
+                currentCard === 0
+                  ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                  : 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-md hover:shadow-lg'
+              }`}
+            >
+              <ChevronLeft size={20} />
+              Previous
+            </button>
+
+            <button
+              onClick={handleFlip}
+              className="flex items-center gap-2 px-6 py-3 rounded-lg font-semibold bg-purple-600 text-white hover:bg-purple-700 transition-all shadow-md hover:shadow-lg"
+            >
+              <RotateCw size={20} />
+              Flip Card
+            </button>
+
+            <button
+              onClick={handleNext}
+              disabled={currentCard === flashcardsData.length - 1}
+              className={`flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all ${
+                currentCard === flashcardsData.length - 1
+                  ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                  : 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-md hover:shadow-lg'
+              }`}
+            >
+              Next
+              <ChevronRight size={20} />
+            </button>
+          </div>
+
+          <div className="mt-6 flex justify-center gap-2">
+            {flashcardsData.map((_, index) => (
+              <div
+                key={index}
+                className={`h-2 rounded-full transition-all ${
+                  index === currentCard
+                    ? 'w-8 bg-indigo-600'
+                    : 'w-2 bg-gray-300'
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
